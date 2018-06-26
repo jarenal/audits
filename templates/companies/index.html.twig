@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Empresas{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Empresas</li>
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i> Empresas</div>
+        <div class="card-body">
+            <div class="table-companies">
+            </div>
+        </div>
+        <div class="card-footer small text-muted">&nbsp;</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/table-companies.js') }}"></script>
+{% endblock %}

@@ -148,20 +148,6 @@ class User implements UserInterface, \Serializable, AdvancedUserInterface
         return $this;
     }
 
-    /**
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function updatedTimestamps()
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-
-        if ($this->getCreatedAt() == null) {
-            $this->setCreatedAt(new \DateTime('now'));
-        }
-    }
-
     public function isAccountNonExpired()
     {
         return true;
@@ -207,4 +193,17 @@ class User implements UserInterface, \Serializable, AdvancedUserInterface
         list($this->id, $this->username, $this->password, $this->is_active) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
 }
