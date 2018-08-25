@@ -47,5 +47,8 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/companies, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/agents, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/candidates, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 

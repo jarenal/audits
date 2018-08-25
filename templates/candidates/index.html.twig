@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidatos{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Candidatos</li>
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i> Candidatos</div>
+        <div class="card-body">
+            <table id="table-container">
+            </table>
+            <a class="btn btn-primary" href="{{ path('candidates_create') }}" role="button">Crear candidato</a>
+        </div>
+        <div class="card-footer small text-muted">&nbsp;</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/candidates/index.js') }}"></script>
+{% endblock %}

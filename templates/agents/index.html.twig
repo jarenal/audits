@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agentes{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Agentes</li>
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i> Agentes</div>
+        <div class="card-body">
+            <table id="table-container">
+            </table>
+            <a class="btn btn-primary" href="{{ path('agents_create') }}" role="button">Crear agente</a>
+        </div>
+        <div class="card-footer small text-muted">&nbsp;</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/agents/index.js') }}"></script>
+{% endblock %}

@@ -6,3 +6,5 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .idea
+/docs/*
+!/docs/.gitkeep

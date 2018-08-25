@@ -38,6 +38,11 @@ class Company
     private $is_active;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_deleted=0;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
@@ -134,6 +139,18 @@ class Company
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setIsDeleted(bool $is_deleted): self
+    {
+        $this->is_deleted = $is_deleted;
 
         return $this;
     }

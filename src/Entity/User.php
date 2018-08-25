@@ -4,13 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class User implements UserInterface, \Serializable, AdvancedUserInterface
+class User implements UserInterface, \Serializable, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -191,6 +191,23 @@ class User implements UserInterface, \Serializable, AdvancedUserInterface
     public function unserialize($serialized)
     {
         list($this->id, $this->username, $this->password, $this->is_active) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->username !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

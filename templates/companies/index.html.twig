@@ -14,8 +14,9 @@
         <div class="card-header">
             <i class="fa fa-table"></i> Empresas</div>
         <div class="card-body">
-            <div class="table-companies">
-            </div>
+            <table id="table-container">
+            </table>
+            <a class="btn btn-primary" href="{{ path('companies_create') }}" role="button">Crear empresa</a>
         </div>
         <div class="card-footer small text-muted">&nbsp;</div>
     </div>
@@ -23,5 +24,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/table-companies.js') }}"></script>
+    <script src="{{ asset('js/companies/index.js') }}"></script>
 {% endblock %}
