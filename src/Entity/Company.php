@@ -33,6 +33,21 @@ class Company
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=13, nullable=true)
+     */
+    private $rfc;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contact;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $is_active;
@@ -151,6 +166,42 @@ class Company
     public function setIsDeleted(bool $is_deleted): self
     {
         $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
+    public function getRfc(): ?string
+    {
+        return $this->rfc;
+    }
+
+    public function setRfc(?string $rfc): self
+    {
+        $this->rfc = $rfc;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getContact(): ?string
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?string $contact): self
+    {
+        $this->contact = $contact;
 
         return $this;
     }

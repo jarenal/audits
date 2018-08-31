@@ -45,6 +45,9 @@ class CompaniesController extends FOSRestController
             $company->setName($data['name']);
             $company->setPhone($data['phone']);
             $company->setEmail($data['email']);
+            $company->setRfc($data['rfc']);
+            $company->setAddress($data['address']);
+            $company->setContact($data['contact']);
             $company->setIsActive((bool)$data['is_active']);
             $em->persist($company);
             $em->flush();
@@ -72,6 +75,9 @@ class CompaniesController extends FOSRestController
             $company->setName($data['name']);
             $company->setPhone($data['phone']);
             $company->setEmail($data['email']);
+            $company->setRfc($data['rfc']);
+            $company->setAddress($data['address']);
+            $company->setContact($data['contact']);
             $company->setIsActive((bool)$data['is_active']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($company);

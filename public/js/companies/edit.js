@@ -14,6 +14,9 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
             name: '',
             phone: '',
             email: '',
+            rfc: '',
+            address: '',
+            contact: '',
             is_active: true,
             is_sending: false
         },
@@ -23,6 +26,9 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
                 this.name = data.name;
                 this.phone = data.phone;
                 this.email = data.email;
+                this.rfc = data.rfc;
+                this.address = data.address;
+                this.contact = data.contact;
                 this.is_active = data.is_active;
 
                 this.$validator.reset();
@@ -33,6 +39,9 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
                 this.name = '';
                 this.phone = '';
                 this.email = '';
+                this.rfc = '';
+                this.address = '';
+                this.contact = '';
                 this.is_active = true;
 
                 this.$validator.reset();
@@ -40,7 +49,10 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
             hasErrors: function () {
                 if(this.name &&
                     this.phone &&
-                    this.email) {
+                    this.email &&
+                    this.rfc &&
+                    this.address &&
+                    this.contact) {
                     return this.$validator.errors.count() ? true : false;
                 } else {
                     return true;
