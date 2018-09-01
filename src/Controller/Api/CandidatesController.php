@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\CivilStatus;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use App\Entity\Candidate;
@@ -45,6 +46,17 @@ class CandidatesController extends FOSRestController
             $candidate->setName($data['name']);
             $candidate->setPhone($data['phone']);
             $candidate->setEmail($data['email']);
+            $candidate->setAddress($data['address']);
+            $candidate->setBirth(\DateTime::createFromFormat("d/m/Y", $data['birth']));
+
+            $civilStatus = $this->getDoctrine()
+                ->getRepository(CivilStatus::class)
+                ->find($data['civil_status']);
+            $candidate->setCivilStatus($civilStatus);
+            $candidate->setCurp($data['curp']);
+            $candidate->setRfc($data['rfc']);
+            $candidate->setNss($data['nss']);
+            $candidate->setChildren($data['children']);
             $candidate->setIsActive((bool)$data['is_active']);
             $em->persist($candidate);
             $em->flush();
@@ -72,6 +84,17 @@ class CandidatesController extends FOSRestController
             $candidate->setName($data['name']);
             $candidate->setPhone($data['phone']);
             $candidate->setEmail($data['email']);
+            $candidate->setAddress($data['address']);
+            $candidate->setBirth(\DateTime::createFromFormat("d/m/Y", $data['birth']));
+
+            $civilStatus = $this->getDoctrine()
+                ->getRepository(CivilStatus::class)
+                ->find($data['civil_status']);
+            $candidate->setCivilStatus($civilStatus);
+            $candidate->setCurp($data['curp']);
+            $candidate->setRfc($data['rfc']);
+            $candidate->setNss($data['nss']);
+            $candidate->setChildren($data['children']);
             $candidate->setIsActive((bool)$data['is_active']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($candidate);

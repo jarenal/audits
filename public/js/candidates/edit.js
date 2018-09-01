@@ -14,6 +14,13 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
             name: '',
             phone: '',
             email: '',
+            address: '',
+            birth: '',
+            civil_status: '',
+            curp: '',
+            rfc: '',
+            nss: '',
+            children: '',
             is_active: true,
             is_sending: false
         },
@@ -23,6 +30,13 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
                 this.name = data.name;
                 this.phone = data.phone;
                 this.email = data.email;
+                this.address = data.address;
+                this.birth = data.birth;
+                this.civil_status = data.civil_status.id;
+                this.curp = data.curp;
+                this.rfc = data.rfc;
+                this.nss = data.nss;
+                this.children = data.children;
                 this.is_active = data.is_active;
 
                 this.$validator.reset();
@@ -33,6 +47,13 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
                 this.name = '';
                 this.phone = '';
                 this.email = '';
+                this.address = '';
+                this.birth = '';
+                this.civil_status = '';
+                this.curp = '';
+                this.rfc = '';
+                this.nss = '';
+                this.children = '';
                 this.is_active = true;
 
                 this.$validator.reset();
@@ -40,7 +61,13 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
             hasErrors: function () {
                 if(this.name &&
                     this.phone &&
-                    this.email) {
+                    this.email &&
+                    this.address &&
+                    this.birth &&
+                    this.civil_status &&
+                    this.curp &&
+                    this.rfc &&
+                    this.nss) {
                     return this.$validator.errors.count() ? true : false;
                 } else {
                     return true;
@@ -103,7 +130,7 @@ require(['Vue', 'VeeValidate', 'dictionaryES', 'vendor/bootstrap/bootstrap.bundl
         }
     });
 
-    if (agentData) {
-        formCandidates.populate(agentData);
+    if (candidateData) {
+        formCandidates.populate(candidateData);
     }
 });

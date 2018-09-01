@@ -18,19 +18,55 @@ class Candidate
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=false)
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birth;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CivilStatus")
+     * @ORM\JoinColumn(name="civil_status_id", referencedColumnName="id")
+     */
+    private $civil_status;
+
+    /**
+     * @ORM\Column(type="string", length=18, nullable=false)
+     */
+    private $curp;
+
+    /**
+     * @ORM\Column(type="string", length=13, nullable=false)
+     */
+    private $rfc;
+
+    /**
+     * @ORM\Column(type="string", length=11, nullable=false)
+     */
+    private $nss;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $children;
 
     /**
      * @ORM\Column(type="boolean")
@@ -151,6 +187,90 @@ class Candidate
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getBirth(): ?\DateTimeInterface
+    {
+        return $this->birth;
+    }
+
+    public function setBirth(?\DateTimeInterface $birth): self
+    {
+        $this->birth = $birth;
+
+        return $this;
+    }
+
+    public function getCivilStatus(): ?CivilStatus
+    {
+        return $this->civil_status;
+    }
+
+    public function setCivilStatus(?CivilStatus $civil_status): self
+    {
+        $this->civil_status = $civil_status;
+
+        return $this;
+    }
+
+    public function getCurp(): ?string
+    {
+        return $this->curp;
+    }
+
+    public function setCurp(string $curp): self
+    {
+        $this->curp = $curp;
+
+        return $this;
+    }
+
+    public function getRfc(): ?string
+    {
+        return $this->rfc;
+    }
+
+    public function setRfc(string $rfc): self
+    {
+        $this->rfc = $rfc;
+
+        return $this;
+    }
+
+    public function getNss(): ?string
+    {
+        return $this->nss;
+    }
+
+    public function setNss(string $nss): self
+    {
+        $this->nss = $nss;
+
+        return $this;
+    }
+
+    public function getChildren(): ?string
+    {
+        return $this->children;
+    }
+
+    public function setChildren(?string $children): self
+    {
+        $this->children = $children;
 
         return $this;
     }
