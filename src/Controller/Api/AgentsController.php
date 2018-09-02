@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use App\Entity\Agent;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -22,7 +22,7 @@ class AgentsController extends FOSRestController
 
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT a FROM App\Entity\Agent a WHERE a.is_deleted=0 ORDER BY a.created_at DESC");
+            $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.is_deleted=0 AND u.roles IN ('ROLE_AGENT') ORDER BY u.created_at DESC");
             $response['data'] = $query->execute();
         }
 
@@ -41,11 +41,14 @@ class AgentsController extends FOSRestController
         if ($request->isXmlHttpRequest()) {
             $data = $request->request->get('agent');
             $em = $this->getDoctrine()->getManager();
-            $agent = new Agent();
+            $agent = new User();
             $agent->setName($data['name']);
             $agent->setPhone($data['phone']);
             $agent->setEmail($data['email']);
+            $agent->setUsername($data['email']);
             $agent->setIsActive((bool)$data['is_active']);
+            $agent->setRoles(['ROLE_AGENT']);
+            $agent->setPassword('1234');
             $em->persist($agent);
             $em->flush();
             $response['data']['id'] = $agent->getId();
@@ -66,12 +69,13 @@ class AgentsController extends FOSRestController
 
         if ($request->isXmlHttpRequest()) {
             $agent = $this->getDoctrine()
-                ->getRepository(Agent::class)
+                ->getRepository(User::class)
                 ->find($slug);
             $data = $request->request->get('agent');
             $agent->setName($data['name']);
             $agent->setPhone($data['phone']);
             $agent->setEmail($data['email']);
+            $agent->setUsername($data['email']);
             $agent->setIsActive((bool)$data['is_active']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($agent);
@@ -93,7 +97,7 @@ class AgentsController extends FOSRestController
 
         if ($request->isXmlHttpRequest()) {
             $agent = $this->getDoctrine()
-                ->getRepository(Agent::class)
+                ->getRepository(User::class)
                 ->find($slug);
             $agent->setIsDeleted(1);
             $em = $this->getDoctrine()->getManager();
@@ -121,7 +125,7 @@ class AgentsController extends FOSRestController
 
             if ($data['op'] === 'toggle' && $data['field'] === 'active' && !$data['value']) {
                 $agent = $this->getDoctrine()
-                    ->getRepository(Agent::class)
+                    ->getRepository(User::class)
                     ->find($slug);
                 $agent->setIsActive($agent->getIsActive() ? 0 : 1);
                 $em = $this->getDoctrine()->getManager();

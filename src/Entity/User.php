@@ -20,6 +20,16 @@ class User implements UserInterface, \Serializable, EquatableInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $phone;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $username;
@@ -50,9 +60,19 @@ class User implements UserInterface, \Serializable, EquatableInterface
     private $is_active;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $api_key;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_deleted=0;
+
+    /**
+     * @ORM\Column(type="simple_array")
+     */
+    private $roles = [];
 
     public function __construct()
     {
@@ -173,9 +193,16 @@ class User implements UserInterface, \Serializable, EquatableInterface
         return null;
     }
 
-    public function getRoles()
+    public function setRoles(array $roles): self
     {
-        return ['ROLE_USER'];
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
     }
 
     public function eraseCredentials()
@@ -223,4 +250,41 @@ class User implements UserInterface, \Serializable, EquatableInterface
             $this->setCreatedAt(new \DateTime('now'));
         }
     }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->is_deleted;
+    }
+
+    public function setIsDeleted(bool $is_deleted): self
+    {
+        $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
 }
