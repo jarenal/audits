@@ -8,8 +8,8 @@ require(['common/common', 'vendor/bootstrap/bootstrap-waitingfor', 'vendor/boots
         el: '#myVueApp'
     });
 
-    var entity_alias = 'empresa';
-    var route_alias  = 'companies';
+    var entity_alias = 'usuario';
+    var route_alias  = 'users';
 
     function operateFormatter(value, row, index) {
 
@@ -27,7 +27,6 @@ require(['common/common', 'vendor/bootstrap/bootstrap-waitingfor', 'vendor/boots
             '<a href="#" class="btn btn-link btn-sm btn-edit" role="button" title="Editar ' + entity_alias + '"><i class="fa fa-pencil-alt" aria-hidden="true"></i></a>',
             '<a href="#" class="btn btn-link btn-sm btn-enable" role="button" title="' + thumbs_title + '"><i class="fa ' + thumbs_icon + '" aria-hidden="true"></i></a>',
             '<a href="#" class="btn btn-link btn-sm btn-remove" role="button" title="Eliminar ' + entity_alias + '"><i class="fa fa-trash" aria-hidden="true"></i></a>',
-            '<a href="#" class="btn btn-link btn-sm btn-users" role="button" title="Gestionar usuarios"><i class="fa fa-users" aria-hidden="true"></i></a>',
             '</div>'
         ].join('');
     }
@@ -35,17 +34,18 @@ require(['common/common', 'vendor/bootstrap/bootstrap-waitingfor', 'vendor/boots
     var operateEvents = {
         'click .btn-edit': function (e, value, row, index) {
             e.preventDefault();
-            window.location.href = Routing.generate(route_alias + '_edit', {slug: row.id});
+            window.location.href = Routing.generate(route_alias + '_edit', {slug: row.id, company_id: companyData.id});
 
         },
         'click .btn-remove': function (e, value, row, index) {
             e.preventDefault();
             vueApp.$refs.confirmModal.reset();
-            vueApp.$refs.confirmModal.title = '¿Deseas eliminar a esta ' + entity_alias + '?';
+            vueApp.$refs.confirmModal.title = '¿Deseas eliminar a este ' + entity_alias + '?';
             vueApp.$refs.confirmModal.id = row.id;
             vueApp.$refs.confirmModal.name = row.name;
             vueApp.$refs.confirmModal.action = 'delete';
             vueApp.$refs.confirmModal.route_prefix = 'api_' + route_alias;
+            vueApp.$refs.confirmModal.company_id = companyData.id;
             vueApp.$refs.confirmModal.showModal();
         },
         'click .btn-enable': function (e, value, row, index) {
@@ -53,27 +53,23 @@ require(['common/common', 'vendor/bootstrap/bootstrap-waitingfor', 'vendor/boots
             vueApp.$refs.confirmModal.reset();
 
             if (row.is_active) {
-                vueApp.$refs.confirmModal.title = '¿Deseas deshabilitar a esta ' + entity_alias + '?';
+                vueApp.$refs.confirmModal.title = '¿Deseas deshabilitar a este ' + entity_alias + '?';
             } else {
-                vueApp.$refs.confirmModal.title = '¿Deseas habilitar a esta ' + entity_alias + '?';
+                vueApp.$refs.confirmModal.title = '¿Deseas habilitar a este ' + entity_alias + '?';
             }
 
             vueApp.$refs.confirmModal.id = row.id;
             vueApp.$refs.confirmModal.name = row.name;
             vueApp.$refs.confirmModal.action = 'enabled';
             vueApp.$refs.confirmModal.route_prefix = 'api_' + route_alias;
+            vueApp.$refs.confirmModal.company_id = companyData.id;
             vueApp.$refs.confirmModal.showModal();
-        },
-        'click .btn-users': function (e, value, row, index) {
-            e.preventDefault();
-            window.location.href = Routing.generate('users_list', {company_id: row.id});
-
         }
     };
 
 
     $('#table-container').bootstrapTable({
-        url: Routing.generate('api_' + route_alias + '_get'),
+        url: Routing.generate('api_' + route_alias + '_get', {company_id: companyData.id}),
         method: 'get',
         cache: false,
         height: 'auto',
@@ -92,7 +88,7 @@ require(['common/common', 'vendor/bootstrap/bootstrap-waitingfor', 'vendor/boots
             sortable: true
         }, {
             field: 'is_active',
-            title: 'Activa',
+            title: 'Activo',
             sortable: true,
             formatter: common.prettyStatus
         }, {

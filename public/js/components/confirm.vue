@@ -26,7 +26,8 @@
                     title: '',
                     name: '',
                     id: '',
-                    route_prefix: ''
+                    route_prefix: '',
+                    company_id: ''
                 };
             },
             methods: {
@@ -38,16 +39,22 @@
                     this.fullname = '';
                     this.id = '';
                     this.route_prefix = '';
+                    this.company_id = '';
                 },
                 save: function (event) {
                     event.stopPropagation();
 
-                    var self = this;
+                    let self = this;
+                    let routeParameters = {};
+                    routeParameters.slug = self.id;
+                    if (this.company_id) {
+                        routeParameters.company_id = self.company_id;
+                    }
 
                     switch (this.action) {
                         case 'delete':
                             $.ajax({
-                                url: Routing.generate(this.route_prefix + '_delete', {slug: this.id}),
+                                url: Routing.generate(self.route_prefix + '_delete', routeParameters),
                                 method: 'DELETE',
                                 data: {},
                                 cache: false,
@@ -61,13 +68,13 @@
                             });
                             break;
                         case 'enabled':
-                            var parameters = {};
+                            let parameters = {};
                             parameters.op = 'toggle';
                             parameters.field = 'active';
                             parameters.value = '';
 
                             $.ajax({
-                                url: Routing.generate(this.route_prefix + '_patch', {slug: this.id}),
+                                url: Routing.generate(self.route_prefix + '_patch', routeParameters),
                                 method: 'PATCH',
                                 data: parameters,
                                 cache: false,

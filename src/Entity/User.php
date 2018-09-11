@@ -74,6 +74,11 @@ class User implements UserInterface, \Serializable, EquatableInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     */
+    private $company;
+
     public function __construct()
     {
         $this->setIsActive(true);
@@ -283,6 +288,18 @@ class User implements UserInterface, \Serializable, EquatableInterface
     public function setIsDeleted(bool $is_deleted): self
     {
         $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

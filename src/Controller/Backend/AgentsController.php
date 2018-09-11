@@ -2,7 +2,7 @@
 
 namespace App\Controller\Backend;
 
-use App\Entity\Agent;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,7 +33,7 @@ class AgentsController extends Controller
     public function edit(Request $request, $slug)
     {
         $agent = $this->getDoctrine()
-            ->getRepository(Agent::class)
+            ->getRepository(User::class)
             ->find($slug);
         return $this->render('agents/create.html.twig', ["data" => $agent]);
     }
