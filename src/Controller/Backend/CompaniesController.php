@@ -14,9 +14,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        return $this->render('companies/index.html.twig', [
-            'controller_name' => 'CompaniesController',
-        ]);
+        return $this->render('companies/index.html.twig', []);
     }
 
     /**

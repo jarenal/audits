@@ -14,9 +14,7 @@ class CandidatesController extends Controller
      */
     public function index()
     {
-        return $this->render('candidates/index.html.twig', [
-            'controller_name' => 'CandidatesController',
-        ]);
+        return $this->render('candidates/index.html.twig', []);
     }
 
     /**

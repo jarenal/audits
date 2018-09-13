@@ -14,9 +14,7 @@ class AgentsController extends Controller
      */
     public function index()
     {
-        return $this->render('agents/index.html.twig', [
-            'controller_name' => 'AgentsController',
-        ]);
+        return $this->render('agents/index.html.twig', []);
     }
 
     /**
