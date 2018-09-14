@@ -9,11 +9,11 @@
             <a href="{{ path('dashboard') }}">Dashboard</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="{{ path('companies_list') }}">Candidatos</a>
+            <a href="{{ path('candidates_list') }}">Candidatos</a>
         </li>
-        <li class="breadcrumb-item active">Crear</li>
+        <li class="breadcrumb-item active">{{ data ? 'Editar' : 'Crear' }}</li>
     </ol>
-    <h1 class="text-center">Crear candidato</h1>
+    <h1 class="text-center">{{ data ? 'Editar' : 'Crear' }} candidato</h1>
     <hr>
     <div class="row justify-content-center">
         <div class="col-4">
