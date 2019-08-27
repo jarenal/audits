@@ -51,5 +51,6 @@ security:
         - { path: ^/api/companies, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/agents, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/candidates, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/audits, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: [ROLE_USER, ROLE_AGENT] }
 

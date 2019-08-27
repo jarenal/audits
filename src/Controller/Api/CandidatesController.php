@@ -23,7 +23,15 @@ class CandidatesController extends FOSRestController
 
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT c FROM App\Entity\Candidate c WHERE c.is_deleted=0 ORDER BY c.created_at DESC");
+            $search = $request->query->get("search", "");
+            $dropdown = $request->query->get("dropdown", false);
+            if ($dropdown) {
+                $query = $em->createQuery("SELECT c FROM App\Entity\Candidate c WHERE c.is_deleted=0 AND c.is_active=1 AND c.name LIKE :name ORDER BY c.created_at DESC");
+                $query->setParameter("name", "%$search%");
+            } else {
+                $query = $em->createQuery("SELECT c FROM App\Entity\Candidate c WHERE c.is_deleted=0 ORDER BY c.created_at DESC");
+            }
+
             $response['data'] = $query->execute();
         }
 

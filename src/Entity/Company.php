@@ -74,9 +74,15 @@ class Company
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Audit", mappedBy="company")
+     */
+    private $audits;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->audits = new ArrayCollection();
     }
 
     public function getId()
@@ -243,6 +249,37 @@ class Company
             // set the owning side to null (unless already changed)
             if ($user->getCompany() === $this) {
                 $user->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Audit[]
+     */
+    public function getAudits(): Collection
+    {
+        return $this->audits;
+    }
+
+    public function addAudit(Audit $audit): self
+    {
+        if (!$this->audits->contains($audit)) {
+            $this->audits[] = $audit;
+            $audit->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAudit(Audit $audit): self
+    {
+        if ($this->audits->contains($audit)) {
+            $this->audits->removeElement($audit);
+            // set the owning side to null (unless already changed)
+            if ($audit->getCompany() === $this) {
+                $audit->setCompany(null);
             }
         }
 

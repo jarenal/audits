@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -87,6 +89,16 @@ class Candidate
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Audit", mappedBy="candidate")
+     */
+    private $audits;
+
+    public function __construct()
+    {
+        $this->audits = new ArrayCollection();
+    }
 
     /**
      *
@@ -271,6 +283,37 @@ class Candidate
     public function setChildren(?string $children): self
     {
         $this->children = $children;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Audit[]
+     */
+    public function getAudits(): Collection
+    {
+        return $this->audits;
+    }
+
+    public function addAudit(Audit $audit): self
+    {
+        if (!$this->audits->contains($audit)) {
+            $this->audits[] = $audit;
+            $audit->setCandidate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAudit(Audit $audit): self
+    {
+        if ($this->audits->contains($audit)) {
+            $this->audits->removeElement($audit);
+            // set the owning side to null (unless already changed)
+            if ($audit->getCandidate() === $this) {
+                $audit->setCandidate(null);
+            }
+        }
 
         return $this;
     }

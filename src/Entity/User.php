@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -79,9 +81,15 @@ class User implements UserInterface, \Serializable, EquatableInterface
      */
     private $company;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Audit", mappedBy="agent")
+     */
+    private $audits;
+
     public function __construct()
     {
         $this->setIsActive(true);
+        $this->audits = new ArrayCollection();
     }
 
     public function getId()
@@ -300,6 +308,37 @@ class User implements UserInterface, \Serializable, EquatableInterface
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Audit[]
+     */
+    public function getAudits(): Collection
+    {
+        return $this->audits;
+    }
+
+    public function addAudit(Audit $audit): self
+    {
+        if (!$this->audits->contains($audit)) {
+            $this->audits[] = $audit;
+            $audit->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAudit(Audit $audit): self
+    {
+        if ($this->audits->contains($audit)) {
+            $this->audits->removeElement($audit);
+            // set the owning side to null (unless already changed)
+            if ($audit->getAgent() === $this) {
+                $audit->setAgent(null);
+            }
+        }
 
         return $this;
     }

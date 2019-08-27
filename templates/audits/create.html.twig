@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear auditor&iacute;a{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ path('dashboard') }}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('audits_list') }}">Auditorias</a>
+        </li>
+        <li class="breadcrumb-item active">{{ data ? 'Editar' : 'Crear' }}</li>
+    </ol>
+    <h1 class="text-center">{{ data ? 'Editar' : 'Crear' }} Auditoria</h1>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div id="form-audits" v-cloak="">
+                <form>
+                    <fieldset v-bind="{'disabled': is_sending}">
+                        <div class="form-group row">
+                            <label for="company" class="col-sm-2 col-form-label">Empresa</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" name="id" v-model="id">
+                                <v-select label="name" v-model="company" :options="companies" :filterable="false" @search="onSearchCompanies"></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="candidate" class="col-sm-2 col-form-label">Candidato</label>
+                            <div class="col-sm-10">
+                                <v-select label="name" v-model="candidate" :options="candidates" :filterable="false" @search="onSearchCandidates"></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="agent" class="col-sm-2 col-form-label">Agente</label>
+                            <div class="col-sm-10">
+                                <v-select label="name" v-model="agent" :options="agents" :filterable="false" @search="onSearchAgents"></v-select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="required_position" class="col-sm-2 col-form-label">Puesto solicitado</label>
+                            <div class="col-sm-10">
+                                <input id="required_position"
+                                       name="required_position"
+                                       type="text"
+                                       v-model="required_position"
+                                       v-validate="'required'"
+                                       data-vv-as="Puesto solicitado"
+                                       :class="{'form-control': true,
+                          'is-invalid': errors.has('required_position'),
+                          'is-valid': !errors.has('required_position') && required_position}">
+                                <div v-show="errors.has('required_position')" class="invalid-feedback">[[ errors.first('required_position') ]]</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="start_date" class="col-sm-2 col-form-label">Fecha inicio</label>
+                            <div class="col-sm-10">
+                                <input id="start_date"
+                                       name="start_date"
+                                       type="text"
+                                       v-model="start_date"
+                                       v-validate="'required'"
+                                       data-vv-as="Fecha inicio"
+                                       :class="{'form-control': true,
+                          'is-invalid': errors.has('start_date'),
+                          'is-valid': !errors.has('start_date') && start_date}">
+                                <div v-show="errors.has('start_date')" class="invalid-feedback">[[ errors.first('start_date') ]]</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="end_date" class="col-sm-2 col-form-label">Fecha entrega</label>
+                            <div class="col-sm-10">
+                                <input id="end_date"
+                                       name="end_date"
+                                       type="text"
+                                       v-model="end_date"
+                                       v-validate="'required'"
+                                       data-vv-as="Fecha entrega"
+                                       :class="{'form-control': true,
+                          'is-invalid': errors.has('end_date'),
+                          'is-valid': !errors.has('end_date') && end_date}">
+                                <div v-show="errors.has('end_date')" class="invalid-feedback">[[ errors.first('end_date') ]]</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="status" class="col-sm-2 col-form-label">Estado</label>
+                            <div class="col-sm-10">
+                                <select id="status"
+                                        name="status"
+                                        v-model="status"
+                                        v-validate="'required|between:1,7'"
+                                        data-vv-as="Estado"
+                                        :class="{'form-control': true,
+                                        'is-invalid': errors.has('status'),
+                                        'is-valid': !errors.has('status') && status}"
+                                >
+                                    <option value="1">Abierta</option>
+                                    <option value="2">Asignada</option>
+                                    <option value="3">Pendiente por realizar visita</option>
+                                    <option value="4">Pendiente por realizar prueba</option>
+                                    <option value="5">En curso</option>
+                                    <option value="6">Concluida</option>
+                                    <option value="7">Cancelada</option>
+                                </select>
+                                <div v-show="errors.has('status')" class="invalid-feedback">[[ errors.first('status') ]]</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col text-right">
+                                <a class="btn btn-secondary" href="{{ path('audits_list') }}" role="button">Cancelar</a>
+                                <button type="button"
+                                        :class="{'btn': true, 'btn-primary': true, 'disabled': hasErrors()}"
+                                        v-bind="{'disabled': hasErrors()}"
+                                        v-on:click="save($event)">Guardar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var auditData = {{ data | serialize('json') | raw }};
+    </script>
+    <script src="{{ asset('js/audits/edit.js') }}"></script>
+{% endblock %}

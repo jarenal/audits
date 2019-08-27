@@ -22,7 +22,15 @@ class AgentsController extends FOSRestController
 
         if ($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.is_deleted=0 AND u.roles IN ('ROLE_AGENT') ORDER BY u.created_at DESC");
+            $search = $request->query->get("search", "");
+            $dropdown = $request->query->get("dropdown", false);
+            if ($dropdown) {
+                $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.is_deleted=0 AND u.is_active=1 AND u.name LIKE :name AND u.roles IN ('ROLE_AGENT') ORDER BY u.created_at DESC");
+                $query->setParameter("name", "%$search%");
+            } else {
+                $query = $em->createQuery("SELECT u FROM App\Entity\User u WHERE u.is_deleted=0 AND u.roles IN ('ROLE_AGENT') ORDER BY u.created_at DESC");
+            }
+
             $response['data'] = $query->execute();
         }
 

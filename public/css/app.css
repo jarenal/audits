@@ -1,3 +1,7 @@
 [v-cloak] {
     display: none;
 }
+
+.v-select .dropdown-toggle::after {
+    border: 0;
+}

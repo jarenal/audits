@@ -52,6 +52,12 @@
                     <span class="nav-link-text">Candidatos</span>
                 </a>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Auditorias">
+                <a class="nav-link" href="{{ path('audits_list') }}">
+                    <i class="fa fa-fw fa-clipboard-check"></i>
+                    <span class="nav-link-text">Auditorias</span>
+                </a>
+            </li>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -125,7 +131,9 @@
                 moment: 'vendor/moment/moment',
                 vue: 'vendor/vue/require-vuejs',
                 sbAdmin: 'vendor/theme/sb-admin.min',
-                jqueryEasing: 'vendor/jquery/jquery.easing.min'
+                jqueryEasing: 'vendor/jquery/jquery.easing.min',
+                VueSelect: 'vendor/vue-select/vue-select.min',
+                underscore: 'vendor/underscore/underscore.min'
             },
             shim: {
                 bootstrapTable: {
@@ -133,6 +141,7 @@
                 },
                 sbAdmin: {deps: ['jquery']},
                 jqueryEasing: {deps: ['jquery']},
+                VueSelect: {deps: ['Vue']}
             }
         };
     </script>
